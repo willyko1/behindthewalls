@@ -113,3 +113,11 @@ The homepage is now a Leaflet street-map explorer with address/ZIP search, borou
 The map uses `data/buildings.json`, recovered from the existing public app’s `/data/season.json`, retrieved October 21, 2026. This is a separate snapshot from the October 7 aggregates. Public address labels are now intentionally shown following the revised map-explorer brief. No user reviews are implemented. OpenStreetMap street tiles require network access. At wide zoom levels, at most 4,000 highest-count locations are drawn per viewport; the sidebar shows the first 100. Zoom in to reveal additional addresses. Missing-coordinate addresses cannot be mapped.
 
 Production browser checks confirmed street tiles, address search, borough filtering, selection, and a monthly history panel. The seven existing automated tests cover the retained aggregate analysis, not the new map UI.
+
+### Interactive building research update
+
+The map now clusters every matching geocoded address (41,091 in the frozen snapshot), without a marker cap. Cluster labels count addresses; individual markers count complaints. The viewport list loads in batches of 50.
+
+Profiles show monthly history, months with reports, longest consecutive stretch, peak months, and suggested viewing questions. Save up to three addresses for a full-season comparison; the shortlist persists in this browser using localStorage. Comparisons stay on the full season when the map period changes. These are address-level complaint histories, not apartment-level records or quality ratings. No verified repair outcomes, building-size normalization, HPD joins, or user reviews are included.
+
+Leaflet.markercluster 1.5.3 is vendored with its MIT license.

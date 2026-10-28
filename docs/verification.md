@@ -41,3 +41,11 @@ The project inherited team Vercel Authentication, which was preserved. The produ
 Deployment used the verified local source files through Vercel’s API; automatic Git deployments are not connected. For automatic deployments after future pushes, open the existing project’s **Settings → Git → Connect Git Repository** and select `willyko1/behindthewalls`, production branch `main`. No setting is required to view the already published production site.
 
 This is a static site without server functions. Runtime function logs, log drains, and database checks are not applicable; production verification used HTTP responses, data equality, and browser console checks. Continuous error monitoring is not configured.
+
+## Building research update — October 28, 2026
+
+- Ten automated tests pass, including recurrence, tied peaks, empty histories, and shortlist validation; static build succeeds.
+- Local browser: all 41,091 geocoded matching addresses enter clusters; viewport list renders.
+- Comparison checked against monthly data: 2800 Creston Avenue totals 1,730; peak January 388 (22%); 225 Central Park North totals 1,194; peak December 236 (20%).
+- Three-address limit shows feedback; shortlist restores after reload. January filter changes Creston profile count to 388 while preserving full-season history.
+- 390×844 comparison dialog inspected with horizontal table scrolling; no browser console errors observed.
