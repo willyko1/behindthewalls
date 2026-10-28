@@ -65,3 +65,9 @@ This is a static site without server functions. Runtime function logs, log drain
 - Browser: Bed-Stuy all-bedroom median $3,595; 1-bedroom median $3,245, 436 listings, 16.5% rent-cut share. $3,000 budget produces a $245 / 8.2% gap. Kips Bay explicitly shows Manhattan-only context. Address profile links to rent context and identifies it as an area benchmark, not building rent.
 - Mobile renter overview inspected at 390×844; no console errors. HPD and StreetEasy public links verified; MTA link uses its current homepage after its former /tripplanner path returned 404.
 - Midterm requirements checked directly in the Google Doc MIDTERM tab: 5–7 slides, PDF presentation, live demo and reflection; detailed checklist in docs/midterm-handoff.md.
+
+## Search-first landing page — October 28, 2026
+
+- Desktop and 390×844 mobile layouts inspected. Single search form, local SVG neighborhood illustration, suggested neighborhoods, and inline unknown-name feedback.
+- Bed-Stuy search navigates to explore.html?neighborhood=Bed-Stuy, selects both Bedford-Stuyvesant areas, shows the neighborhood rent benchmark, and produces 7,220 historical complaints / 1,357 reporting addresses. Refresh preserves the query. Brand link returns to the landing page.
+- Existing 17 tests pass; static build includes landing and explorer assets.

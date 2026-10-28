@@ -90,6 +90,7 @@ function renderList(){
 function applyFilters(fit=false){
   clearTimeout(timer);pageSize=50;
   const place=el('neighborhood').value.trim(),ids=matchNeighborhoods(place,neighborhoods);
+  const viewUrl=new URL(location.href);if(place)viewUrl.searchParams.set('neighborhood',place);else viewUrl.searchParams.delete('neighborhood');history.replaceState(null,'',viewUrl);
   const term=el('search').value.trim().toLowerCase().replace(/\s+/g,' '),borough=el('borough').value;
   locationRows=buildings.filter(b=>(!place||ids.includes(b.n))&&(!borough||b.b===borough)&&(!term||`${b.a} ${b.z}`.toLowerCase().replace(/\s+/g,' ').includes(term)));
   filtered=locationRows.filter(b=>count(b)>0);
@@ -124,7 +125,10 @@ Promise.all(['./data/buildings.json','./data/neighborhoods.geojson','./data/rent
   neighborhoods=geo.features;neighborhoods.forEach(f=>{names.set(f.properties.id,f.properties.name);if(f.properties.type==='0'){const option=make('option');option.value=f.properties.name;el('neighborhood-options').append(option);}});
   buildings=data.buildings.filter(b=>Array.isArray(b.p)&&b.p.length===2&&b.p.every(Number.isFinite));buildings.forEach(b=>byId.set(b.id,b));
   try{saved=normalizeSaved(JSON.parse(localStorage.getItem('btw-shortlist')||'[]'),new Set(byId.keys()));}catch{saved=[];}
-  saveSelection();applyFilters();
+  saveSelection();
+  const entryNeighborhood=new URLSearchParams(location.search).get('neighborhood');
+  if(entryNeighborhood)el('neighborhood').value=entryNeighborhood.slice(0,150);
+  applyFilters(Boolean(entryNeighborhood));
 }).catch(error=>{console.error(error);el('status').textContent='Could not load locations. Reload to try again.';});
 
 function choosePlace(name){el('neighborhood').value=name;el('search').value='';el('borough').value='';applyFilters(true);}
