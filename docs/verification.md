@@ -24,6 +24,20 @@ The static app has no API route, database, authentication requirement, or runtim
 
 ## Vercel
 
-Project created: `behind-the-walls`, ID `prj_Wmx427SUZMhcwlfEeyUujRB3GvAZ`, connected team `Clef` (`clef5`). Deployment pending at the time of this initial verification record. Final deployment evidence will be appended after the deployment completes.
+Project created: `behind-the-walls`, ID `prj_Wmx427SUZMhcwlfEeyUujRB3GvAZ`, connected team `Clef` (`clef5`). Production deployment completed with status **READY**.
 
-The new project inherited team Vercel Authentication. Deployment readiness and anonymous public access must be verified separately. No existing ChatGPT Site was altered.
+- Live production alias: https://behind-the-walls-nine.vercel.app/
+- Deployment URL: https://behind-the-walls-o2nt0ozl5-clef5.vercel.app/
+- Deployment ID: `dpl_EEqTu4efkk4bxdFHzHzXRRVURYCv`
+- Runtime source commit: `8019cb7` on `main`. Subsequent documentation-only commits do not change deployed runtime assets.
+- Framework: static HTML / D3; build succeeded in approximately 3 seconds.
+- Unauthenticated HTTP check returned **200** for the production alias. The deployed aggregate JSON equals the local frozen snapshot exactly.
+- Production browser direct link restored January / Bronx / addresses with 27,176 complaints and 5,232 addresses. The address walkthrough ranked Brooklyn (5,884) above the Bronx (5,232), and reset restored 341,824 / 41,102. No browser warnings or errors were captured.
+- Source pushed to https://github.com/willyko1/behindthewalls on `main`.
+- `docs/preview.png` is a screenshot of the actual Vercel production page.
+
+The project inherited team Vercel Authentication, which was preserved. The production alias above was independently verified as publicly readable. No existing ChatGPT Site was altered.
+
+Deployment used the verified local source files through Vercel’s API; automatic Git deployments are not connected. For automatic deployments after future pushes, open the existing project’s **Settings → Git → Connect Git Repository** and select `willyko1/behindthewalls`, production branch `main`. No setting is required to view the already published production site.
+
+This is a static site without server functions. Runtime function logs, log drains, and database checks are not applicable; production verification used HTTP responses, data equality, and browser console checks. Continuous error monitoring is not configured.

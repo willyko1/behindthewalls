@@ -28,8 +28,13 @@ The provided Library references were not accessible in the working repository. D
 - [ ] Approximately 100-word personal bio, with background and interests supplied by Willy.
 - [ ] 5–7-slide full proposal presentation, with text and images; well-structured PDF.
 - [ ] Original process reflection, learnings, and challenges written by Willy.
-- [ ] Final live URL and public repository link added to that proposal.
+- [ ] Add the verified live URL (https://behind-the-walls-nine.vercel.app/) and public code (https://github.com/willyko1/behindthewalls) to Willy’s proposal.
 - [ ] Three exploratory charts and four storyboard frames from Part 1 located and checked if required for the final package.
-- [ ] Official Gallery rules reviewed before any eventual City submission.
+- [ ] Willy reviews and accepts the official Gallery rules personally before any eventual City submission. The rules and submission-process page were inspected for this handoff; no submission or agreement was made.
 
 The syllabus permits AI coding assistance with student understanding but asks for written assignments and reflections to be the student’s own thoughts. This handoff is a technical checklist and demo sequence, not a replacement for Willy’s personal reflection or biography. There is no claim of classmate testing, instructor feedback, or a City submission.
+
+## Gallery references checked
+
+- [Submission process and current rubric](https://www.nyc.gov/opendata/news/all-news/Submission-process-for-the-Open-Data-Project-Gallery): links to NYC Open Data, value added, topic/method, design/UX, tools, openness, and narrative. The current rubric categories differ from the five labels used by the course assignment; preserve the assignment’s required criterion names in the course proposal.
+- [Official rules](https://www.nyc.gov/content/dam/nycgov/opendata/get-started/gallery/Open-Data-Project-Gallery-Official-Rules.docx.pdf): read as a reference for preparation. Willy must review these himself before submitting.

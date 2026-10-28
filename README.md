@@ -2,6 +2,8 @@
 
 Willy Ko · CS331 Data Visualization midterm · **Undercurrents**
 
+**Live website:** [behind-the-walls-nine.vercel.app](https://behind-the-walls-nine.vercel.app/) · **Code:** [willyko1/behindthewalls](https://github.com/willyko1/behindthewalls)
+
 An interactive D3 exploration of NYC 311 heat and hot-water complaints created **October 1, 2025–May 31, 2026**. Designed for NYC renters, with tenant organizers and community-board housing committees as a secondary audience.
 
 The project asks how reported problems change over time and boroughs, and how the interpretation changes when counting distinct reported addresses rather than complaints. It uses a frozen historical snapshot, not a live outage feed.
