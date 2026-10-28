@@ -7,22 +7,22 @@
 <link rel="icon" href="./favicon.svg"><link rel="stylesheet" href="./landing.css"><script type="module" src="./landing.js"></script>
 </head>
 <body>
-<header><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">▥</span> Behind the Walls</a><span class="city-label">NEW YORK CITY / RENTAL RESEARCH</span></header>
+<header><a class="brand" href="./">behind the walls</a><span class="city-label">nyc, 2026</span></header>
 <main>
 <section class="welcome" aria-labelledby="welcome-title">
-<p class="eyebrow"><span></span> A LITTLE RESEARCH. A BETTER NEXT CHAPTER.</p>
-<h1 id="welcome-title">Find your place.<br><em>Know what’s <br>behind the walls.</em></h1>
-<p class="intro">The listing shows the apartment. We help you explore the neighborhood—its asking rents, its heat and hot-water complaints, and the questions worth asking before you move.</p>
+
+<h1 id="welcome-title">Thinking about<br><em>moving?</em></h1>
+<p class="intro">A look at rents and housing complaints<br>around New York.</p>
 <form action="./explore.html" method="get" id="neighborhood-form">
-<label for="neighborhood-search">Where are you thinking of living?</label>
-<div class="search-box"><span aria-hidden="true" class="search-icon">⌕</span><input id="neighborhood-search" name="neighborhood" type="search" list="places" placeholder="e.g. Kips Bay" required autocomplete="off" aria-describedby="search-help search-error"><button type="submit" aria-label="Explore neighborhood">Explore <span aria-hidden="true">↗</span></button></div>
+<label for="neighborhood-search">Pick a neighborhood</label>
+<div class="search-box"><input id="neighborhood-search" name="neighborhood" type="search" list="places" placeholder="Kips Bay, Bed-Stuy…" required autocomplete="off" aria-describedby="search-help search-error"><button type="submit" aria-label="Explore neighborhood"><span aria-hidden="true">↗</span></button></div>
 <datalist id="places"></datalist><p id="search-error" role="alert"></p>
-<p id="search-help">Start with a neighborhood. We’ll take you to its map, rent context, and reporting history.</p>
+<p id="search-help">Search a neighborhood to see its rents, map, and reporting history.</p>
 </form>
-<div class="suggestions" aria-label="Suggested neighborhood searches"><span>CURIOUS ABOUT</span><button type="button" data-place="Bed-Stuy">Bed-Stuy ↗</button><button type="button" data-place="Kips Bay">Kips Bay ↗</button><button type="button" data-place="Astoria">Astoria ↗</button></div>
+<div class="suggestions" aria-label="Suggested neighborhood searches"><span>or try</span><button type="button" data-place="Bed-Stuy">Bed-Stuy</button><button type="button" data-place="Kips Bay">Kips Bay</button><button type="button" data-place="Astoria">Astoria</button></div>
 </section>
 <section class="scene" aria-label="Illustration of a New York residential block at dusk">
-<div class="scene-heading"><span>EVERY BLOCK HAS A STORY.</span><span>40.7128° N / 74.0060° W</span></div>
+
 <svg viewBox="0 0 640 650" role="img" aria-label="New York apartment buildings with warm windows, trees, and a stoop">
 <defs>
 <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#e1dfd1"/><stop offset="1" stop-color="#f3e3c8"/></linearGradient>
@@ -45,8 +45,8 @@
 <g fill="#29434a"><circle cx="466" cy="564" r="6"/><path d="M460 576Q466 570 472 576L476 596H456Z"/><path d="M461 591H465V609H461ZM469 591H473V609H469Z"/></g>
 <path d="M0 616H640M0 622H640" stroke="#e4ddc9" stroke-width="2"/>
 </svg>
-<div class="scene-caption"><span class="window-mark" aria-hidden="true">▦</span><p>A closer look at the places<br>you might call home.</p><span class="caption-arrow" aria-hidden="true">↗</span></div>
+<div class="scene-caption">somewhere in new york</div>
 </section>
 </main>
-<footer><span>Built for NYC renters. Powered by public data.</span><span>Historical reports and market context · Not a live listings service</span></footer>
+<footer><span>A student project by Willy Ko</span><span>NYC 311 reports + StreetEasy rent data</span></footer>
 </body></html>
