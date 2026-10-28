@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+import {matchNeighborhoods,summarize} from '../neighborhood-model.js';
+const geo=JSON.parse(fs.readFileSync(new URL('../data/neighborhoods.geojson',import.meta.url))).features;
+test('familiar neighborhood names map to the documented statistical areas',()=>{assert.deepEqual(matchNeighborhoods('Kips Bay',geo),['MN0603']);assert.deepEqual(matchNeighborhoods('bed-stuy',geo),['BK0301','BK0302']);assert.deepEqual(matchNeighborhoods('BED STUY',geo),['BK0301','BK0302']);assert.deepEqual(matchNeighborhoods('not a place',geo),[]);});
+test('period counts and full-season timelines remain distinct',()=>{const rows=[{n:'A',m:[3,0,2,0,0,0,0,0]},{n:'A',m:[0,5,0,0,0,0,0,0]},{n:'B',m:[1,1,1,1,0,0,0,0]}];const s=summarize(rows,0);assert.equal(s.reports,4);assert.equal(s.addresses,2);assert.deepEqual(s.monthly,[4,6,3,1,0,0,0,0]);assert.deepEqual(s.recurrence,[0,1,1]);assert.deepEqual(s.groups,[{id:'A',reports:3,addresses:1},{id:'B',reports:1,addresses:1}]);});
+test('empty filters yield zero counts without NaN',()=>{assert.equal(summarize([],3).reports,0);assert.deepEqual(summarize([]).monthly,Array(8).fill(0));});

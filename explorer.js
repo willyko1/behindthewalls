@@ -1,3 +1,5 @@
+import {matchNeighborhoods,summarize} from './neighborhood-model.js';
+import {renderAnalytics} from './analytics.js';
 import {profile,monthNames,normalizeSaved} from './building-model.js';
 const el = id => document.getElementById(id);
 const fmt = n => n.toLocaleString('en-US');
@@ -8,6 +10,8 @@ const make = (tag,text,className) => {
   return node;
 };
 const action = (label,callback) => {const button=make('button',label);button.onclick=callback;return button;};
+let neighborhoods=[],locationRows=[],areaLayer=null;
+const names=new Map();
 let buildings=[],filtered=[],selected=null,saved=[],pageSize=50,timer;
 const byId=new Map(),markers=new Map();
 const map=L.map('street-map',{preferCanvas:true}).setView([40.73,-73.96],11);
@@ -82,8 +86,10 @@ function renderList(){
 }
 function applyFilters(fit=false){
   clearTimeout(timer);pageSize=50;
+  const place=el('neighborhood').value.trim(),ids=matchNeighborhoods(place,neighborhoods);
   const term=el('search').value.trim().toLowerCase().replace(/\s+/g,' '),borough=el('borough').value;
-  filtered=buildings.filter(b=>(!borough||b.b===borough)&&(!term||`${b.a} ${b.z}`.toLowerCase().replace(/\s+/g,' ').includes(term))&&count(b)>0);
+  locationRows=buildings.filter(b=>(!place||ids.includes(b.n))&&(!borough||b.b===borough)&&(!term||`${b.a} ${b.z}`.toLowerCase().replace(/\s+/g,' ').includes(term)));
+  filtered=locationRows.filter(b=>count(b)>0);
   clusters.clearLayers();markers.clear();
   const allMarkers=filtered.map(b=>{
     const node=make('span',String(count(b)),'location-dot');node.title=`${b.a}: ${fmt(count(b))} complaints`;
@@ -91,18 +97,42 @@ function applyFilters(fit=false){
     const tip=make('span',node.title);marker.bindTooltip(tip);marker.on('click',()=>show(b));markers.set(b.id,marker);return marker;
   });
   clusters.addLayers(allMarkers);
+  drawAreas(place,ids);
+  const labels=ids.map(id=>names.get(id)).filter(Boolean);
+  el('scope').textContent=place?(labels.length?`Neighborhood match: ${labels.join(' + ')}. ${borough?`Borough: ${borough}. `:''}Charts follow this location selection.`:`No neighborhood matches “${place}”. Try a suggestion or clear the neighborhood field.`):`All ${borough||'NYC'} neighborhood matches${term?` · address/ZIP: ${term}`:''}. Charts follow location filters; the address list follows the map.`;
+  renderAnalytics(locationRows,Number(el('month').value),el('measure').value,names,i=>{el('month').value=String(i);applyFilters();},choosePlace);
   if(selected){const b=byId.get(selected);if(filtered.includes(b))show(b,false);else{selected=null;el('detail').hidden=true;}}
-  if(fit&&filtered.length)map.fitBounds(L.latLngBounds(filtered.map(b=>[b.p[1],b.p[0]])),{padding:[35,35],maxZoom:16});
+  if(fit&&filtered.length)map.fitBounds(place&&areaLayer?areaLayer.getBounds():L.latLngBounds(filtered.map(b=>[b.p[1],b.p[0]])),{padding:[35,35],maxZoom:16});
   renderList();
 }
 el('month').onchange=()=>applyFilters();el('borough').onchange=()=>applyFilters(true);
+el('neighborhood').oninput=()=>{clearTimeout(timer);timer=setTimeout(()=>applyFilters(true),300);};
+el('map-mode').onchange=()=>applyFilters();el('measure').onchange=()=>applyFilters();
+document.querySelectorAll('[data-place]').forEach(button=>button.onclick=()=>choosePlace(button.dataset.place));
 el('search').oninput=()=>{clearTimeout(timer);timer=setTimeout(()=>applyFilters(true),300);};
-el('reset').onclick=()=>{clearTimeout(timer);el('search').value='';el('borough').value='';el('month').value='-1';selected=null;el('detail').hidden=true;map.setView([40.73,-73.96],11);applyFilters();};
+el('reset').onclick=()=>{clearTimeout(timer);el('search').value='';el('neighborhood').value='';el('borough').value='';el('month').value='-1';selected=null;el('detail').hidden=true;map.setView([40.73,-73.96],11);applyFilters();};
 el('about').onclick=()=>el('methods').showModal();el('close-about').onclick=()=>el('methods').close();
 el('compare-open').onclick=()=>{renderComparison();el('comparison').showModal();};el('compare-close').onclick=()=>el('comparison').close();
 map.on('moveend',()=>{if(buildings.length)renderList();});
-fetch('./data/buildings.json').then(r=>{if(!r.ok)throw Error('Data failed');return r.json();}).then(data=>{
+Promise.all(['./data/buildings.json','./data/neighborhoods.geojson'].map(url=>fetch(url).then(r=>{if(!r.ok)throw Error('Data failed');return r.json();}))).then(([data,geo])=>{
+  neighborhoods=geo.features;neighborhoods.forEach(f=>{names.set(f.properties.id,f.properties.name);if(f.properties.type==='0'){const option=make('option');option.value=f.properties.name;el('neighborhood-options').append(option);}});
   buildings=data.buildings.filter(b=>Array.isArray(b.p)&&b.p.length===2&&b.p.every(Number.isFinite));buildings.forEach(b=>byId.set(b.id,b));
   try{saved=normalizeSaved(JSON.parse(localStorage.getItem('btw-shortlist')||'[]'),new Set(byId.keys()));}catch{saved=[];}
   saveSelection();applyFilters();
 }).catch(error=>{console.error(error);el('status').textContent='Could not load locations. Reload to try again.';});
+
+function choosePlace(name){el('neighborhood').value=name;el('search').value='';el('borough').value='';applyFilters(true);}
+function drawAreas(place,ids){
+ if(areaLayer)map.removeLayer(areaLayer);
+ const shaded=el('map-mode').value==='areas',metric=el('measure').value;
+ if(shaded)map.removeLayer(clusters);else if(!map.hasLayer(clusters))map.addLayer(clusters);
+ const totals=new Map(summarize(locationRows,Number(el('month').value)).groups.map(g=>[g.id,g[metric]]));
+ const thresholds=metric==='reports'?[10,100,1000,10000]:[10,100,500,1000];
+ const palette=['#fff0d1','#f6c590','#e79258','#bd5730','#78331f'];
+ const color=d3.scaleThreshold().domain(thresholds).range(palette);
+ const features=neighborhoods.filter(f=>place?ids.includes(f.properties.id):(!el('borough').value||f.properties.boro===el('borough').value));
+ if(shaded||place){areaLayer=L.geoJSON({type:'FeatureCollection',features},{style:f=>({color:'#6b4635',weight:place?2:1,fillColor:totals.has(f.properties.id)?color(totals.get(f.properties.id)):'#dce0dc',fillOpacity:shaded?.72:.07}),onEachFeature:(f,layer)=>{const tip=make('span',`${f.properties.name}: ${fmt(totals.get(f.properties.id)||0)} ${metric==='reports'?'complaints':'reporting addresses'} in selected period`);layer.bindTooltip(tip);if(shaded)layer.on('click',()=>choosePlace(f.properties.name));}}).addTo(map);if(!shaded)areaLayer.bringToBack();}
+ const key=document.querySelector('.map-key');key.replaceChildren();
+ if(shaded){key.append(make('strong',metric==='reports'?'Complaint counts':'Reporting address counts'));const ranges=metric==='reports'?['1–9','10–99','100–999','1,000–9,999','10,000+']:['1–9','10–99','100–499','500–999','1,000+'];ranges.forEach((label,i)=>{const item=make('span',label,'legend-bin'),swatch=make('i');swatch.style.background=palette[i];item.prepend(swatch);key.append(item);});key.append(make('span','Gray: no matching reports','legend-bin'));}
+ else key.append(make('span','Dots: complaint counts · Clusters: address counts'));
+}

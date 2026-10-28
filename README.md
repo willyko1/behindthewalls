@@ -121,3 +121,11 @@ The map now clusters every matching geocoded address (41,091 in the frozen snaps
 Profiles show monthly history, months with reports, longest consecutive stretch, peak months, and suggested viewing questions. Save up to three addresses for a full-season comparison; the shortlist persists in this browser using localStorage. Comparisons stay on the full season when the map period changes. These are address-level complaint histories, not apartment-level records or quality ratings. No verified repair outcomes, building-size normalization, HPD joins, or user reviews are included.
 
 Leaflet.markercluster 1.5.3 is vendored with its MIT license.
+
+### Neighborhood exploration and linked visualization
+
+Search neighborhoods separately from optional address/ZIP filters. Names resolve against the recovered 262-feature NYC 2020 NTA geometry in `data/neighborhoods.geojson`; Bed-Stuy combines BK0301/BK0302 and Kips Bay resolves to MN0603 (Murray Hill-Kips Bay). These approximate statistical areas are not exact colloquial neighborhood boundaries. Unknown names produce an explicit empty state. Data remains frozen, not live.
+
+The app now includes D3 monthly bars (select to filter the map), neighborhood ranking bars (select to drill down), recurrence bars, and Leaflet neighborhood choropleths with fixed count thresholds. The measure switch changes choropleth and ranking counts between complaints and reporting addresses; clusters always count addresses and individual dots always show complaints. Timeline counts span the full season for the location selection; period counts and recurrence cohorts use the selected period. All analytics use location filters, independently of map panning. Raw counts are not population- or housing-stock-normalized.
+
+The professor-provided Dine Scout example informed the coordinated filtering and live analytics approach, not a formal grading rubric. The three questions are temporal peak, spatial concentration, and reporting recurrence. The earlier season-analysis page remains available.

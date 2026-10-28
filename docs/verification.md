@@ -49,3 +49,11 @@ This is a static site without server functions. Runtime function logs, log drain
 - Comparison checked against monthly data: 2800 Creston Avenue totals 1,730; peak January 388 (22%); 225 Central Park North totals 1,194; peak December 236 (20%).
 - Three-address limit shows feedback; shortlist restores after reload. January filter changes Creston profile count to 388 while preserving full-season history.
 - 390×844 comparison dialog inspected with horizontal table scrolling; no browser console errors observed.
+
+## Neighborhood and linked-chart update — October 28, 2026
+
+- 13 tests pass; production build succeeds. Tests cover Bed-Stuy aliases, Kips Bay's combined geography, unknown names, selected-period aggregates, full-season timelines, and empty selections.
+- Browser verified Kips Bay = Murray Hill-Kips Bay: 777 reports, 213 addresses. Bed-Stuy = East + West: 7,220 reports, 1,357 addresses. These match independent aggregation of the frozen JSON.
+- Selecting January in the D3 timeline changes Bed-Stuy to 1,700 reports / 565 addresses. Keyboard activation of the neighborhood ranking drills down to Bedford-Stuyvesant (East).
+- Unknown neighborhood displays explicit no-match state and zero statistics. Metric switch, polygon shading, and 390px mobile charts inspected; no console errors observed.
+- Boundaries/names recovered from the existing application's 262-feature NTA collection; names resolve to the same NTA IDs already present in address records. Kips Bay's combined-area limitation is disclosed.
