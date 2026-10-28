@@ -38,3 +38,20 @@ The syllabus permits AI coding assistance with student understanding but asks fo
 
 - [Submission process and current rubric](https://www.nyc.gov/opendata/news/all-news/Submission-process-for-the-Open-Data-Project-Gallery): links to NYC Open Data, value added, topic/method, design/UX, tools, openness, and narrative. The current rubric categories differ from the five labels used by the course assignment; preserve the assignment’s required criterion names in the course proposal.
 - [Official rules](https://www.nyc.gov/content/dam/nycgov/opendata/get-started/gallery/Open-Data-Project-Gallery-Official-Rules.docx.pdf): read as a reference for preparation. Willy must review these himself before submitting.
+
+## Requirements re-verified October 28, 2026
+
+The MIDTERM tab was exported and read directly from the shared Google Doc. A **5–7-slide full proposal** is required, together with a live prototype walkthrough and a short reflection about process, learning, and challenges. The presentation grading criterion asks for a **well-structured PDF with visuals**. PowerPoint is an optional authoring tool, not a specified required file format; export the deck to PDF.
+
+Required proposal contents: title; 300–500-word concept statement (audience, question, at least two named Gallery criteria); data-source links; at least two form/data-flow sketches; at least two user-journey sketches; live prototype and public repository URLs; approximately 100-word personal bio. Supplementary sources are explicitly permitted if NYC Open Data remains central.
+
+Suggested seven-slide structure for the renter-focused project:
+1. Title, renter audience, and housing problem.
+2. Concept and connection to Undercurrents; Understanding and Usefulness criteria.
+3. NYC 311 + NTA + StreetEasy sources, cleaning, date/geography differences, limitations.
+4. Two form/data-flow sketches.
+5. Two user-journey sketches (neighborhood budget research; address maintenance research).
+6. Live demo: Bed-Stuy → bedroom/rent context → complaint timeline → address profile; include website/repository links.
+7. Student-written reflection and personal bio (keep full required prose legible in the proposal package).
+
+This outline is not the finished proposal or a claim that personal writing, sketches, or the slide deck are complete. The rubric's concept row retains older ecosystems/cycles wording despite the explicit Undercurrents theme; use the stated theme and ask the instructor if that mismatch affects grading.

@@ -1,3 +1,4 @@
+import {initRenter,updateRenter,appendRenterContext} from './renter.js';
 import {matchNeighborhoods,summarize} from './neighborhood-model.js';
 import {renderAnalytics} from './analytics.js';
 import {profile,monthNames,normalizeSaved} from './building-model.js';
@@ -45,7 +46,7 @@ function chart(b){
 function show(b,scroll=true){
   clearTimeout(timer);selected=b.id;
   const p=profile(b),panel=el('detail');panel.hidden=false;panel.replaceChildren();
-  panel.append(action('← Back to results',()=>{selected=null;panel.hidden=true;renderList();}),make('h2',b.a),make('p',`${b.b} · ${b.z}`));
+  panel.append(action('← Back to results',()=>{selected=null;panel.hidden=true;updateRenter(neighborhoods.filter(f=>locationRows.some(b=>b.n===f.properties.id)),el('borough').value);renderList();}),make('h2',b.a),make('p',`${b.b} · ${b.z}`));
   const save=action(saved.includes(b.id)?'✓ Remove from comparison':'+ Add to comparison',()=>toggleSaved(b.id));save.setAttribute('aria-pressed',String(saved.includes(b.id)));panel.append(save);
   panel.append(make('div',fmt(count(b)),'total'),make('p',`reported complaints · ${el('month').selectedOptions[0].textContent}`));
   panel.append(make('h3','The full-season pattern'));
@@ -59,6 +60,8 @@ function show(b,scroll=true){
   const questions=make('ul');
   [p.active>1?'How were recurring heat or hot-water reports investigated and resolved?':'What happened during the reported period, and what repairs followed?', 'When was the boiler last serviced, and how are outages communicated?', 'Can management share maintenance records and explain how tenants track repairs?'].forEach(q=>questions.append(make('li',q)));
   panel.append(questions,make('p','Building size, inspection findings, and verified repair outcomes are not joined to this dataset. These counts are not a building rating.'),make('p','NYC 311 · snapshot October 21, 2026. Reports are not confirmed violations or counts of affected households.'));
+  appendRenterContext(panel,neighborhoods.find(f=>f.properties.id===b.n),b.b);
+  updateRenter(neighborhoods.filter(f=>f.properties.id===b.n),b.b,b.a);
   renderList();if(scroll)panel.scrollIntoView({block:'nearest'});
 }
 function renderComparison(){
@@ -98,6 +101,8 @@ function applyFilters(fit=false){
   });
   clusters.addLayers(allMarkers);
   drawAreas(place,ids);
+  const contextIds=place?ids:[...new Set(locationRows.map(b=>b.n))];
+  updateRenter(neighborhoods.filter(f=>contextIds.includes(f.properties.id)),borough);
   const labels=ids.map(id=>names.get(id)).filter(Boolean);
   el('scope').textContent=place?(labels.length?`Neighborhood match: ${labels.join(' + ')}. ${borough?`Borough: ${borough}. `:''}Charts follow this location selection.`:`No neighborhood matches “${place}”. Try a suggestion or clear the neighborhood field.`):`All ${borough||'NYC'} neighborhood matches${term?` · address/ZIP: ${term}`:''}. Charts follow location filters; the address list follows the map.`;
   renderAnalytics(locationRows,Number(el('month').value),el('measure').value,names,i=>{el('month').value=String(i);applyFilters();},choosePlace);
@@ -114,7 +119,8 @@ el('reset').onclick=()=>{clearTimeout(timer);el('search').value='';el('neighborh
 el('about').onclick=()=>el('methods').showModal();el('close-about').onclick=()=>el('methods').close();
 el('compare-open').onclick=()=>{renderComparison();el('comparison').showModal();};el('compare-close').onclick=()=>el('comparison').close();
 map.on('moveend',()=>{if(buildings.length)renderList();});
-Promise.all(['./data/buildings.json','./data/neighborhoods.geojson'].map(url=>fetch(url).then(r=>{if(!r.ok)throw Error('Data failed');return r.json();}))).then(([data,geo])=>{
+Promise.all(['./data/buildings.json','./data/neighborhoods.geojson','./data/rental-market.json'].map(url=>fetch(url).then(r=>{if(!r.ok)throw Error('Data failed');return r.json();}))).then(([data,geo,rental])=>{
+  initRenter(rental);
   neighborhoods=geo.features;neighborhoods.forEach(f=>{names.set(f.properties.id,f.properties.name);if(f.properties.type==='0'){const option=make('option');option.value=f.properties.name;el('neighborhood-options').append(option);}});
   buildings=data.buildings.filter(b=>Array.isArray(b.p)&&b.p.length===2&&b.p.every(Number.isFinite));buildings.forEach(b=>byId.set(b.id,b));
   try{saved=normalizeSaved(JSON.parse(localStorage.getItem('btw-shortlist')||'[]'),new Set(byId.keys()));}catch{saved=[];}

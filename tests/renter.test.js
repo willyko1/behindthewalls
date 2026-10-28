@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+import {resolveMarket,marketStats,budgetGap} from '../renter-model.js';
+const market=JSON.parse(fs.readFileSync(new URL('../data/rental-market.json',import.meta.url))),geo=JSON.parse(fs.readFileSync(new URL('../data/neighborhoods.geojson',import.meta.url))).features;
+test('Bed-Stuy joins one named market; Kips Bay explicitly falls back to borough',()=>{const bed=resolveMarket(market.areas,geo.filter(f=>['BK0301','BK0302'].includes(f.properties.id)));assert.equal(bed.area.name,'Bedford-Stuyvesant');assert.equal(bed.level,'neighborhood');const kips=resolveMarket(market.areas,geo.filter(f=>f.properties.id==='MN0603'));assert.equal(kips.area.name,'Manhattan');assert.equal(kips.level,'borough');});
+test('citywide selection is not assigned a single neighborhood median',()=>{assert.equal(resolveMarket(market.areas,geo).area.name,'NYC');});
+test('latest asking rent uses actual selected bedroom series and never fills missing values',()=>{const area=market.areas.find(a=>a.name==='Bedford-Stuyvesant');assert.equal(marketStats(area).rent,3595);assert.equal(marketStats(area).inventory,1295);assert.equal(marketStats({bedrooms:{All:{rent:[100,null],inventory:[2,null],rentCutShare:[.1,null]}}}).rent,null);});
+test('budget difference is arithmetic with explicit missing-input behavior',()=>{assert.deepEqual(budgetGap(3600,3000),{difference:600,percent:20});assert.equal(budgetGap(null,3000),null);assert.equal(budgetGap(3600,0),null);});

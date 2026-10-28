@@ -57,3 +57,11 @@ This is a static site without server functions. Runtime function logs, log drain
 - Selecting January in the D3 timeline changes Bed-Stuy to 1,700 reports / 565 addresses. Keyboard activation of the neighborhood ranking drills down to Bedford-Stuyvesant (East).
 - Unknown neighborhood displays explicit no-match state and zero statistics. Metric switch, polygon shading, and 390px mobile charts inspected; no console errors observed.
 - Boundaries/names recovered from the existing application's 262-feature NTA collection; names resolve to the same NTA IDs already present in address records. Kips Bay's combined-area limitation is disclosed.
+
+## Renter market context — October 28, 2026
+
+- Public StreetEasy master archive imported into a dated 182-area snapshot; latest month September 2026, five bedroom groupings, 13 monthly observations. Source and archive hash recorded.
+- 17 automated tests pass and static build succeeds. New checks cover neighborhood versus borough matching, no averaging of geographic medians, null preservation, and budget arithmetic.
+- Browser: Bed-Stuy all-bedroom median $3,595; 1-bedroom median $3,245, 436 listings, 16.5% rent-cut share. $3,000 budget produces a $245 / 8.2% gap. Kips Bay explicitly shows Manhattan-only context. Address profile links to rent context and identifies it as an area benchmark, not building rent.
+- Mobile renter overview inspected at 390×844; no console errors. HPD and StreetEasy public links verified; MTA link uses its current homepage after its former /tripplanner path returned 404.
+- Midterm requirements checked directly in the Google Doc MIDTERM tab: 5–7 slides, PDF presentation, live demo and reflection; detailed checklist in docs/midterm-handoff.md.
