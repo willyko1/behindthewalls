@@ -105,3 +105,11 @@ All asset paths are relative, so the site also works under `/behindthewalls/`. I
 - `docs/`: verification evidence and assignment handoff checklist.
 
 D3 is copyright Mike Bostock, under the ISC license in `vendor/D3-LICENSE`. Dataset reuse is subject to the NYC Open Data source terms. No new license is assigned to Willy Ko’s original project material here.
+
+## Interactive map update
+
+The homepage is now a Leaflet street-map explorer with address/ZIP search, borough and month filters, viewport-based results, clickable reported addresses, and monthly building histories. The earlier D3 experience is retained at `analysis.html`.
+
+The map uses `data/buildings.json`, recovered from the existing public app’s `/data/season.json`, retrieved October 21, 2026. This is a separate snapshot from the October 7 aggregates. Public address labels are now intentionally shown following the revised map-explorer brief. No user reviews are implemented. OpenStreetMap street tiles require network access. At wide zoom levels, at most 4,000 highest-count locations are drawn per viewport; the sidebar shows the first 100. Zoom in to reveal additional addresses. Missing-coordinate addresses cannot be mapped.
+
+Production browser checks confirmed street tiles, address search, borough filtering, selection, and a monthly history panel. The seven existing automated tests cover the retained aggregate analysis, not the new map UI.
