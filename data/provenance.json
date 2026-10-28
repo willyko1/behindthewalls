@@ -1,0 +1,11 @@
+{
+  "source": "https://observablehq.com/@willy-ko/behind-the-walls",
+  "snapshotRetrieved": "2026-10-07",
+  "recovered": "2026-10-28",
+  "method": "Extracted JSON literals from the publicly visible visualization source cell; no current 311 request data fetched.",
+  "sha256": {
+    "references/observable-cell.js": "68d70c1235e5cf7af5e91282c8f987d5f487a7595375c044ade61b183f845938",
+    "data/heat-summary.json": "380b2508c310c976df72de44c6ca36787f7525e2a32cec448e7c7281ea2a6845",
+    "data/boroughs-simplified.geojson": "d2a78f9f20e03a1893a692da34fe9fa2b5a9efa7d673ae7e8ff2e2d9cf7016f9"
+  }
+}
