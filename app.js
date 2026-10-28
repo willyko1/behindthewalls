@@ -124,7 +124,7 @@ async function start() {
     const row = get(borough,month);
     const measureText = measure === 'reports' ? 'complaints' : 'distinct reported addresses';
     const max = d3.max(d3.range(5),b => get(b,month)[measure]) || 1;
-    const color = d3.scaleSequential(d3.interpolateRgb('#f3e4cd','#994023')).domain([0,max]);
+    const color = d3.scaleSequential(d3.interpolateRgb('#eee6d9','#6c4e3e')).domain([0,max]);
     $('period').value = month;
     $('season').setAttribute('aria-pressed',String(month === -1));
     document.querySelectorAll('[data-measure]').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.measure === measure)));
@@ -140,7 +140,7 @@ async function start() {
     boroughButtons.attr('aria-pressed',b => String(borough === b));
     $('map-title').textContent = monthLabel(month);
     paths.attr('fill',f => color(get(boroughIndex(f),month)[measure]))
-      .attr('stroke',f => boroughIndex(f) === borough ? '#101f2c' : '#7f8175')
+      .attr('stroke',f => boroughIndex(f) === borough ? '#333d36' : '#7f8175')
       .attr('stroke-width',f => boroughIndex(f) === borough ? 3 : .8)
       .attr('aria-pressed',f => String(boroughIndex(f) === borough))
       .attr('aria-label',f => `${f.properties.boroname}: ${fmt(get(boroughIndex(f),month)[measure])} ${measureText}`);

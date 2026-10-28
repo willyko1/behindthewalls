@@ -138,10 +138,10 @@ function drawAreas(place,ids){
  if(shaded)map.removeLayer(clusters);else if(!map.hasLayer(clusters))map.addLayer(clusters);
  const totals=new Map(summarize(locationRows,Number(el('month').value)).groups.map(g=>[g.id,g[metric]]));
  const thresholds=metric==='reports'?[10,100,1000,10000]:[10,100,500,1000];
- const palette=['#fff0d1','#f6c590','#e79258','#bd5730','#78331f'];
+ const palette=['#eee6d9','#d8c6ae','#bb9b7f','#987359','#6c4e3e'];
  const color=d3.scaleThreshold().domain(thresholds).range(palette);
  const features=neighborhoods.filter(f=>place?ids.includes(f.properties.id):(!el('borough').value||f.properties.boro===el('borough').value));
- if(shaded||place){areaLayer=L.geoJSON({type:'FeatureCollection',features},{style:f=>({color:'#6b4635',weight:place?2:1,fillColor:totals.has(f.properties.id)?color(totals.get(f.properties.id)):'#dce0dc',fillOpacity:shaded?.72:.07}),onEachFeature:(f,layer)=>{const tip=make('span',`${f.properties.name}: ${fmt(totals.get(f.properties.id)||0)} ${metric==='reports'?'complaints':'reporting addresses'} in selected period`);layer.bindTooltip(tip);if(shaded)layer.on('click',()=>choosePlace(f.properties.name));}}).addTo(map);if(!shaded)areaLayer.bringToBack();}
+ if(shaded||place){areaLayer=L.geoJSON({type:'FeatureCollection',features},{style:f=>({color:'#6c7565',weight:place?2:1,fillColor:totals.has(f.properties.id)?color(totals.get(f.properties.id)):'#dce0dc',fillOpacity:shaded?.72:.07}),onEachFeature:(f,layer)=>{const tip=make('span',`${f.properties.name}: ${fmt(totals.get(f.properties.id)||0)} ${metric==='reports'?'complaints':'reporting addresses'} in selected period`);layer.bindTooltip(tip);if(shaded)layer.on('click',()=>choosePlace(f.properties.name));}}).addTo(map);if(!shaded)areaLayer.bringToBack();}
  const key=document.querySelector('.map-key');key.replaceChildren();
  if(shaded){key.append(make('strong',metric==='reports'?'Complaint counts':'Reporting address counts'));const ranges=metric==='reports'?['1–9','10–99','100–999','1,000–9,999','10,000+']:['1–9','10–99','100–499','500–999','1,000+'];ranges.forEach((label,i)=>{const item=make('span',label,'legend-bin'),swatch=make('i');swatch.style.background=palette[i];item.prepend(swatch);key.append(item);});key.append(make('span','Gray: no matching reports','legend-bin'));}
  else key.append(make('span','Dots: complaint counts · Clusters: address counts'));

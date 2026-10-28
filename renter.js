@@ -19,8 +19,8 @@ function render(){
  if(values.every(v=>v===null)||!values.length){chart.append('p').text('No rent observations published for this area and bedroom selection. Try another bedroom count.');}
  else{const w=620,h=175,x=d3.scaleLinear().domain([0,market.months.length-1]).range([58,w-16]),y=d3.scaleLinear().domain([0,d3.max(values)||1]).nice().range([h-32,15]);const svg=chart.append('svg').attr('viewBox',`0 0 ${w} ${h}`).attr('role','img').attr('aria-label',`Median monthly asking rent, ${area.name}, ${market.months[0]} to ${market.months.at(-1)}. Exact values follow in the table.`);
  svg.append('g').attr('transform','translate(58,0)').call(d3.axisLeft(y).ticks(4).tickFormat(d=>`$${d3.format('~s')(d)}`));svg.append('g').attr('transform',`translate(0,${h-32})`).call(d3.axisBottom(x).tickValues([0,3,6,9,12]).tickFormat(i=>new Date(`${market.months[i]}-01T12:00:00Z`).toLocaleDateString('en-US',{month:'short',year:'2-digit',timeZone:'UTC'})));
- svg.append('path').datum(values).attr('fill','none').attr('stroke','#a84b2d').attr('stroke-width',3).attr('d',d3.line().defined(v=>v!==null).x((v,i)=>x(i)).y(v=>y(v)));
- svg.selectAll('circle').data(values.map((v,i)=>({v,i})).filter(d=>d.v!==null)).join('circle').attr('cx',d=>x(d.i)).attr('cy',d=>y(d.v)).attr('r',3).attr('fill','#a84b2d').append('title').text(d=>`${date(market.months[d.i])}: ${money(d.v)}`);}
+ svg.append('path').datum(values).attr('fill','none').attr('stroke','#8e5e49').attr('stroke-width',3).attr('d',d3.line().defined(v=>v!==null).x((v,i)=>x(i)).y(v=>y(v)));
+ svg.selectAll('circle').data(values.map((v,i)=>({v,i})).filter(d=>d.v!==null)).join('circle').attr('cx',d=>x(d.i)).attr('cy',d=>y(d.v)).attr('r',3).attr('fill','#8e5e49').append('title').text(d=>`${date(market.months[d.i])}: ${money(d.v)}`);}
  const body=el('rent-history');body.replaceChildren();market.months.forEach((m,i)=>{const row=document.createElement('tr'),th=document.createElement('th'),td=document.createElement('td');th.scope='row';th.textContent=date(m);td.textContent=money(values[i]??null);row.append(th,td);body.append(row);});
  renderBudget();
 }
